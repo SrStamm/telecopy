@@ -1,0 +1,188 @@
+/* src/App.css */
+
+/* --- 1. Reset y Estilos Globales --- */
+:root {
+  --bg-color: #f9fafb;
+  --panel-bg: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --accent-color: #7c3aed; /* Violeta moderno */
+  --accent-hover: #6d28d9;
+  --border-color: #e5e7eb;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Container principal en Home.tsx */
+.home-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; /* Espacio entre paneles */
+}
+
+/* --- 2. Estilos de Paneles Reutilizables --- */
+.panel {
+  background-color: var(--panel-bg);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+.panel h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+/* --- 3. Estilos de Formularios e Inputs --- */
+form > div {
+  margin-bottom: 1.25rem;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  font-family: inherit;
+  font-size: 1rem;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  color: var(--text-primary);
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1); /* Brillo suave del acento */
+}
+
+textarea {
+  resize: vertical; /* Permitir redimensionar solo verticalmente */
+  min-height: 150px;
+}
+
+/* --- 4. Estilos de Botones --- */
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
+  font-family: inherit;
+}
+
+/* Botón principal (Enviar, Procurar) */
+button[type="submit"] {
+  background-color: var(--accent-color);
+  color: #ffffff;
+  width: 100%; /* Botón ancho para formularios sencillos */
+}
+
+button[type="submit"]:hover {
+  background-color: var(--accent-hover);
+}
+
+button:active {
+  transform: translateY(1px); /* Efecto de pulsación */
+}
+
+/* --- 5. Componente Header.tsx --- */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+}
+
+header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent-color); /* El título también usa el acento */
+  letter-spacing: -1px;
+}
+
+header ol {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+header li {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+header li:hover {
+  color: var(--accent-color);
+}
+
+/* --- 6. Resultados y Feedback --- */
+.result-id,
+.result-content {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-color); /* Un poco más oscuro que el panel */
+  border: 1px solid var(--border-color);
+}
+
+.result-id p {
+  font-family: "Courier New", Courier, monospace; /* Monospace para el ID */
+  color: var(--accent-color);
+  font-weight: bold;
+  word-break: break-all; /* Evitar que UUIDs largos rompan el layout */
+}
+
+.result-content {
+  font-family: inherit;
+  color: var(--text-primary);
+  white-space: pre-wrap; /* Respetar saltos de línea del textarea */
+}

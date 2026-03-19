@@ -29,7 +29,7 @@ function CopyForm() {
   };
 
   return (
-    <div>
+    <div className="panel">
       <h2>Formulario</h2>
       <form onSubmit={onSaveContent}>
         <div>
@@ -42,12 +42,10 @@ function CopyForm() {
         <button type="submit">Enviar</button>
       </form>
 
-      {id ? (
-        <div>
+      {id && (
+        <div className="result-id">
           <p>ID generado: {id}</p>
         </div>
-      ) : (
-        ""
       )}
     </div>
   );

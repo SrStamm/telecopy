@@ -22,7 +22,7 @@ function ResultDisplay() {
   };
 
   return (
-    <div>
+    <div className="panel">
       <h2>Content</h2>
       <form onSubmit={onSearchContent}>
         <div>
@@ -36,7 +36,7 @@ function ResultDisplay() {
         <button type="submit">Procurar</button>
       </form>
 
-      <div>{content}</div>
+      {content && <div className="result-content">{content}</div>}
     </div>
   );
 }

@@ -6,9 +6,8 @@ import ResultDisplay from "../components/ResultDisplay";
 
 function Home() {
   return (
-    <div>
+    <div className="home-container">
       <Header />
-
       <CopyForm />
       <ResultDisplay />
     </div>
