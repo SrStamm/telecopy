@@ -2,6 +2,7 @@
 
 import CopyForm from "../components/CopyForm";
 import Header from "../components/Header";
+import ResultDisplay from "../components/ResultDisplay";
 
 function Home() {
   return (
@@ -9,6 +10,7 @@ function Home() {
       <Header />
 
       <CopyForm />
+      <ResultDisplay />
     </div>
   );
 }
