@@ -10,6 +10,11 @@ import { configDotenv } from "dotenv";
 configDotenv();
 const PORT = process.env.PORT || 3000;
 
+// Cors
+
+import cors from "cors";
+app.use(cors());
+
 // Utilização do Helmet para algumas medidas de segurança
 import helmet from "helmet";
 app.use(helmet());
@@ -26,6 +31,8 @@ app.get("/get-all-contents", (req, res) => {
 });
 
 app.post("/copy", async (req, res) => {
+  console.log("BODY RECIBIDO:", req.body); // Verifica que express.text() funcionó
+
   // Se o jwt existir e houver body, substituir o content
   if (!req.body) {
     res.status(400).send("No content in body.");
