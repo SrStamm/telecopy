@@ -35,13 +35,6 @@ const clean = (raw) => {
   return cleaned;
 };
 
-let content = {
-  a3175b39145aabc: {
-    createdAt: new Date("2026-03-17 21:14"),
-    value: "Este é o valor do diogo",
-  },
-};
-
 app.get("/", (req, res) => {
   res.send("Página Home.");
 });
@@ -50,28 +43,34 @@ app.get("/get-all-contents", (req, res) => {
   res.json(content);
 });
 
-app.post("/copy", (req, res) => {
+app.post("/copy", async (req, res) => {
   // Se o jwt existir e houver body, substituir o content
   if (!req.body) {
     res.status(400).send("No content in body.");
   } else {
     const newId = crypto.randomUUID();
 
-    content[newId] = {
+    const value = {
       createdAt: new Date(),
       value: req.body,
     };
+
+    await client.set(newId, JSON.stringify(value));
+
     res.send(newId);
   }
 });
 
-app.get("/:id", (req, res) => {
+app.get("/:id", async (req, res) => {
   const id = req.params.id;
 
-  if (!content[id]) {
+  const content = await client.get(id);
+
+  if (!content) {
     res.status(404).send("404");
   } else {
-    const result = clean(content[id].value);
+    const contentDict = JSON.parse(content);
+    const result = clean(contentDict.value);
     res.send(result);
   }
 });
