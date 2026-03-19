@@ -5,6 +5,7 @@ import { saveContent } from "../api/telecopyApi";
 
 function CopyForm() {
   const [content, setContent] = useState("");
+  const [id, setId] = useState("");
 
   const onSaveContent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,8 +19,9 @@ function CopyForm() {
     const response = await saveContent(content);
 
     if (response && response.ok) {
-      const id = await response.text();
-      console.log("ID recibido del servidor:", id);
+      const responseId = await response.text();
+
+      setId(responseId);
       setContent(""); // Limpiar el área después de enviar
     } else {
       console.error("Error en la respuesta del servidor");
@@ -39,6 +41,14 @@ function CopyForm() {
         </div>
         <button type="submit">Enviar</button>
       </form>
+
+      {id ? (
+        <div>
+          <p>ID generado: {id}</p>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
