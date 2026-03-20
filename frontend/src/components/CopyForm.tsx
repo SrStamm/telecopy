@@ -28,6 +28,14 @@ function CopyForm() {
     }
   };
 
+  const copiarContenido = async () => {
+    try {
+      await navigator.clipboard.writeText(id);
+    } catch (error) {
+      console.error("Error ao copiar: ", error);
+    }
+  };
+
   return (
     <div className="panel">
       <h2>Formulario</h2>
@@ -45,6 +53,7 @@ function CopyForm() {
       {id && (
         <div className="result-id">
           <p>ID generado: {id}</p>
+          <button onClick={copiarContenido()}>Copiar</button>
         </div>
       )}
     </div>
