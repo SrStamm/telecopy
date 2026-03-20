@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { fetchContent } from "../api/telecopyApi";
+import { copiarContenido } from "../utils/copiarContenido.tsx";
 
 function ResultDisplay() {
   const [id, setId] = useState("");
@@ -36,7 +37,12 @@ function ResultDisplay() {
         <button type="submit">Procurar</button>
       </form>
 
-      {content && <div className="result-content">{content}</div>}
+      {content && (
+        <div className="result-content">
+          {content}
+          <button onClick={() => copiarContenido(content)}>Copiar</button>
+        </div>
+      )}
     </div>
   );
 }

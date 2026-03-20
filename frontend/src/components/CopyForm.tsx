@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { saveContent } from "../api/telecopyApi";
+import { copiarContenido } from "../utils/copiarContenido.tsx";
 
 function CopyForm() {
   const [content, setContent] = useState("");
@@ -15,24 +16,16 @@ function CopyForm() {
       return;
     }
 
-    console.log("Enviando este texto:", content); // Verifica que NO sea undefined
+    console.log("Enviando este texto:", content);
     const response = await saveContent(content);
 
     if (response && response.ok) {
       const responseId = await response.text();
 
       setId(responseId);
-      setContent(""); // Limpiar el área después de enviar
+      setContent("");
     } else {
       console.error("Error en la respuesta del servidor");
-    }
-  };
-
-  const copiarContenido = async () => {
-    try {
-      await navigator.clipboard.writeText(id);
-    } catch (error) {
-      console.error("Error ao copiar: ", error);
     }
   };
 
@@ -53,7 +46,7 @@ function CopyForm() {
       {id && (
         <div className="result-id">
           <p>ID generado: {id}</p>
-          <button onClick={copiarContenido()}>Copiar</button>
+          <button onClick={() => copiarContenido(id)}>Copiar</button>
         </div>
       )}
     </div>
