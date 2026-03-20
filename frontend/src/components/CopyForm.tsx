@@ -2,10 +2,21 @@
 
 import { useState } from "react";
 import { saveContent } from "../api/telecopyApi";
+import { copiarContenido } from "../utils/copiarContenido.tsx";
 
 function CopyForm() {
   const [content, setContent] = useState("");
   const [id, setId] = useState("");
+  const [justCopied, setJustCopied] = useState(false);
+
+  const handleCopy = async () => {
+    await copiarContenido(id);
+    setJustCopied(true);
+
+    setTimeout(() => {
+      setJustCopied(false);
+    }, 2000);
+  };
 
   const onSaveContent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -15,14 +26,14 @@ function CopyForm() {
       return;
     }
 
-    console.log("Enviando este texto:", content); // Verifica que NO sea undefined
+    console.log("Enviando este texto:", content);
     const response = await saveContent(content);
 
     if (response && response.ok) {
       const responseId = await response.text();
 
       setId(responseId);
-      setContent(""); // Limpiar el área después de enviar
+      setContent("");
     } else {
       console.error("Error en la respuesta del servidor");
     }
@@ -45,6 +56,13 @@ function CopyForm() {
       {id && (
         <div className="result-id">
           <p>ID generado: {id}</p>
+          <button
+            className={`btn-copy ${justCopied ? "copied" : ""}`}
+            onClick={handleCopy}
+            title="Copiar ID"
+          >
+            {justCopied ? "✓" : "⎘"}
+          </button>
         </div>
       )}
     </div>
