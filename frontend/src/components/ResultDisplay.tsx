@@ -7,6 +7,16 @@ import { copiarContenido } from "../utils/copiarContenido.tsx";
 function ResultDisplay() {
   const [id, setId] = useState("");
   const [content, setContent] = useState("");
+  const [justCopied, setJustCopied] = useState(false);
+
+  const handleCopy = async () => {
+    await copiarContenido(content);
+    setJustCopied(true);
+
+    setTimeout(() => {
+      setJustCopied(false);
+    }, 2000);
+  };
 
   const onSearchContent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,7 +50,13 @@ function ResultDisplay() {
       {content && (
         <div className="result-content">
           {content}
-          <button onClick={() => copiarContenido(content)}>Copiar</button>
+          <button
+            className={`btn-copy ${justCopied ? "copied" : ""}`}
+            onClick={handleCopy}
+            title="Copiar contenido"
+          >
+            {justCopied ? "✓" : "⎘"}
+          </button>
         </div>
       )}
     </div>

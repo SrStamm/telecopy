@@ -7,6 +7,16 @@ import { copiarContenido } from "../utils/copiarContenido.tsx";
 function CopyForm() {
   const [content, setContent] = useState("");
   const [id, setId] = useState("");
+  const [justCopied, setJustCopied] = useState(false);
+
+  const handleCopy = async () => {
+    await copiarContenido(id);
+    setJustCopied(true);
+
+    setTimeout(() => {
+      setJustCopied(false);
+    }, 2000);
+  };
 
   const onSaveContent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,7 +56,13 @@ function CopyForm() {
       {id && (
         <div className="result-id">
           <p>ID generado: {id}</p>
-          <button onClick={() => copiarContenido(id)}>Copiar</button>
+          <button
+            className={`btn-copy ${justCopied ? "copied" : ""}`}
+            onClick={handleCopy}
+            title="Copiar ID"
+          >
+            {justCopied ? "✓" : "⎘"}
+          </button>
         </div>
       )}
     </div>
