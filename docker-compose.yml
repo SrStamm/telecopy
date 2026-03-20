@@ -5,7 +5,6 @@ services:
       target: development # Aquí le decimos que use la etapa de desarrollo
     ports:
       - "3000:3000" # Puerto de Express
-      - "5173:5173" # Puerto de Vite (si aplica)
       - "9229:9229" # Puerto de Debugging
     volumes:
       - ./backend:/app
@@ -20,3 +19,15 @@ services:
       - "6379:6379"
       - "8001:8001"
     # env_file: .env
+
+  frontend:
+    build:
+      context: ./frontend
+      target: development
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:3000
