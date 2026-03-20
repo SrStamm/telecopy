@@ -168,10 +168,13 @@ header li:hover {
 .result-id,
 .result-content {
   margin-top: 1.5rem;
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: var(--radius-md);
   background-color: var(--bg-color); /* Un poco más oscuro que el panel */
   border: 1px solid var(--border-color);
+
+  position: relative;
+  display: block;
 }
 
 .result-id p {
@@ -184,5 +187,39 @@ header li:hover {
 .result-content {
   font-family: inherit;
   color: var(--text-primary);
-  white-space: pre-wrap; /* Respetar saltos de línea del textarea */
+  white-space: pre-wrap;
+  padding-right: 3rem;
+}
+
+.btn-copy {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+
+  width: 32px;
+  height: 32px;
+  padding: 0;
+
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.btn-copy:hover {
+  opacity: 1;
+  background-color: #f3f4f6;
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.btn-copy.copied {
+  background-color: #10b981;
+  color: #ffffff;
+  border-color: #10b981;
+  opacity: 1;
+  transform: scale(1.05);
 }
