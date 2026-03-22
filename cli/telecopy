@@ -25,7 +25,12 @@ shift $((OPTIND - 1))
 
 # Si se activa la flag -i o si no hay argumentos
 if [ "$INTERACTIVE" = true ]; then
-  read -rp "Modo Interactivo. Introduce el hash: " hash
+  if [ -n $1 ]; then
+    hash=$1
+  else
+    read -rp "Modo Interactivo. Introduce el hash: " hash
+  fi
+
   echo "$hash" >"$CONFIG_FILE"
   curl -s "http://localhost:3000/$hash"
   echo
