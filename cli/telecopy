@@ -1,27 +1,61 @@
 #!/bin/bash
 
+# Config variable
 CONFIG_FILE="$HOME/.telecopy"
+INTERACTIVE=false
 
-if [ -n "$1" ]; then
-  response=$(curl -s -X POST http://localhost:8070/copy \
+# --- Procesamiento de flags ---
+
+while getopts "i" opt; do
+  case $opt in
+  i)
+    INTERACTIVE=true
+    ;;
+  \?)
+    echo "Opción inválida: -$OPTARG" >&2
+    exit 1
+    ;;
+  esac
+done
+
+# Limpia los flags para que $1 sea el primer argumento real
+shift $((OPTIND - 1))
+
+# --- Lógica script ----
+
+# Si se activa la flag -i o si no hay argumentos
+if [ "$INTERACTIVE" = true ]; then
+  if [ -n $1 ]; then
+    hash=$1
+  else
+    read -rp "Modo Interactivo. Introduce el hash: " hash
+  fi
+
+  echo "$hash" >"$CONFIG_FILE"
+  curl -s "http://localhost:3000/$hash"
+  echo
+
+elif [ -n "$1" ]; then # $1 representa el primer texto que se escribe después del nombre del script
+  response=$(curl -s -X POST http://localhost:3000/copy \
     -H "Content-Type: text/plain" \
-    -d "$1")
+    -d "$1") # Envía el texto al servidor
 
-  hash=$(echo "$response" | tr -d '[:space:]')
+  hash=$(echo "$response" | tr -d '[:space:]') # Limpia cualquier espacio/salto de linea invisible que el servidor pueda devolver
   echo "$hash"
 
   if [ -n "$hash" ]; then
-    echo "$hash" > "$CONFIG_FILE"
+    # Guarda el nuevo ID en el archivo oculto
+    echo "$hash" >"$CONFIG_FILE"
   fi
 
 else
   if [ ! -f "$CONFIG_FILE" ] || [ -z "$(cat "$CONFIG_FILE")" ]; then
     read -rp "Hash não encontrado. Introduz o hash: " hash
-    echo "$hash" > "$CONFIG_FILE"
+    echo "$hash" >"$CONFIG_FILE"
   else
     hash=$(cat "$CONFIG_FILE")
   fi
 
-  curl -s "http://localhost:8070/$hash"
+  curl -s "http://localhost:3000/$hash"
   echo
 fi
